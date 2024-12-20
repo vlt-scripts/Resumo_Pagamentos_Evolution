@@ -82,6 +82,9 @@ function enviarResumo() {
     $camposSelecionados = [
        'login',         // Login do cliente
        'valorpag',      // Valor do pagamento
+    // 'formapag',      // Forma de pagamento
+    // 'datavenc',      // Data de vencimento
+    // 'coletor'        // Coletor
     ];
 
     // Itera sobre os pagamentos

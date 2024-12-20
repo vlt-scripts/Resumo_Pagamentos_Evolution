@@ -32,13 +32,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $total = 0;
 
     foreach ($linhas as $linha) {
-        $info = explode(" - ", $linha);
-        if (count($info) > 1) {
-            $login = $info[0];
-            $valor = str_replace("R$ ", "", $info[1]);
-            $valorFormatado = number_format(floatval(str_replace(',', '.', $valor)), 2, ',', '.');
-            $detalhesSimplificados[] = "$login - R$ $valorFormatado";
-            $total += floatval(str_replace(',', '.', $valor));
+    $info = explode(" - ", $linha); // Divide a linha
+    if (count($info) >= 2) { // Certifique-se de que pelo menos login e valor estão presentes
+      
+        // Verifique a existência de cada campo antes de usá-lo
+           $login = isset($info[0]) ? $info[0] : '';
+           $valor = isset($info[1]) ? str_replace("R$ ", "", $info[1]) : '';
+        // $formapag = isset($info[2]) ? $info[2] : '';
+        // $datavenc = isset($info[3]) ? $info[3] : '';
+        // $coletor = isset($info[4]) ? $info[4] : '';
+
+        // Formata o valor
+        $valorFormatado = number_format(floatval(str_replace(',', '.', $valor)), 2, ',', '.');
+
+        // Constrói a linha com apenas os campos preenchidos
+        $linhaFormatada = "$login - R$ $valorFormatado";
+        if (!empty($formapag)) {
+            $linhaFormatada .= " - $formapag";
+        }
+        if (!empty($datavenc)) {
+            $linhaFormatada .= " - $datavenc";
+        }
+        if (!empty($coletor)) {
+            $linhaFormatada .= " - $coletor";
+        }
+
+        // Adiciona a linha à lista de detalhes simplificados
+        $detalhesSimplificados[] = $linhaFormatada;
+
+        // Soma ao total
+        $total += floatval(str_replace(',', '.', $valor));
         }
     }
 
